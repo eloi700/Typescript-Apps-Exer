@@ -588,6 +588,196 @@ Into 'aBJoP'
 Array of Linked List 10-> -3-> 27-> 5
 Into -3-> 5-> 10-> 27
 
+## SRC DIRECTORY
+All files with ts example: index.ts
+*To RUN / WATCH the code / JS File*
+```js
+tsc -w // to watch all the files inside of the root dir / src directory
+```
+
+## BUILD DIRECTORY
+It is for all Compiled File like index.js etc.
+*To BUILD JS File*
+```js
+tsc
+```
+## CREATING **TSCONFIG** FILE
+*Configuration / Initialization of Typescript Compiler*
+```js
+tsc --init
+```
+Everytime we run tsc compiler (tsc index.ts) it will check for the **tsconfig.js** file
+
+To tell the typescript to take all the code from SRC and place the RESULTS in BUILD Directory, from tsconfig.js file check for
+```js
+// "outDir": "./build"
+// "rootDir": "./src"
+```
+## CONCURRENT COMPILATION & EXECUTION
+Note:  Make sure that you are running in the current or same directory
+```js
+node build/index.js
+```
+### SETUP AUTOMATICALLY THE COMPILATION / EXECUTION
+Generate a **package.json** file to install 2 Commandline Tools to help in **automating** all code running stuff.
+```js
+npm init -y // to generate package.json file
+npm install nodemon concurrently
+
+// nodemon is to rerun Node anytime a file changes inside the project. Responsible for executing the code once it has been compiled.
+
+// concurrently is responsible for helping to run multiple scripts at the same time.
+```
+No. 1 using **concurrently** is to *run the Script* first to start up the TS Compiler & No. 2 is using **Nodemon** to *execute* the code.
+
+### AUTOMATICALLY BUILD & RUN IN 1 COMMAND BY WRITING SCRIPTS IN **PACKAGE.JSON**
+Adding 3 Scripts:
+- Setting up the TS into watch mode (Build)
+- Setting up the nodemon to run
+- Rather have 2 terminal windows open, using this 3rd script will start up the entire project in a Development Mode. (looking for npm with start:)
+```json
+"scripts": {
+    "start:build" : "tsc-w",
+    "start:run" : "nodemon build/index.js",
+    "start": "concurrently npm:start:*"
+  },
+```
+**To Automatically Execute & Run**
+```js
+npm start
+```
+## SET OF RULES (EXTENDS / IMPLEMENTS)
+- A **class** can **extend** a **class**
+- A **class** can **implement** an **interface**
+- An **interface** can **extend** an **interface**
+
+We can define two interfaces and make one extend the other, like so:
+```js
+interface Boat {
+  floating: boolean;
+}
+
+interface SailBoat extends Boat {
+  sailUp: boolean;
+}
+```
+
+## TYPE GUARD
+### NARROR TYPE OF A VALUE TO A PRIMITIVE TYPE
+### USING OF typeof
+- number
+- string
+- boolean
+- symbol
+```js
+if (typeof this.collection === 'string'){
+
+}
+```
+### NARROW DOWN EVERY OTHER TYPE OF VALUE
+### USING OF instanceof
+- Every other value that is created with a constructor function like...
+  - Date, Sorter
+```js
+if (this.collection instanceof Array){
+
+}
+```
+
+## SORT METHOD
+Sorter.ts
+- Instructions on how to be eligible for sorting
+- Create Interface to sort the different Collections
+```js
+class Sorter{
+  sort(){
+
+  }
+}
+```
+## COLLECTIONS TO BE SORTED
+NumberCollection.ts
+```js
+class NumbersCollection{
+  swap(i, j)
+  compare(i, j)
+  length
+}
+```
+CharactersCollection.js
+```js
+class CharactersCollection{
+  swap(i,j)
+  compare(i,j)
+}
+```
+LinkedList.ts
+```js
+class LinkedList{
+  swap(i,j)
+  compare(i,j)
+  length
+}
+```
+## LINKED LIST IMPLEMENTATION
+Link list data structure is a series of different nodes.
+- Every node contains one value. A value can be of any arbitrary type, but we will be building the linked list to store numbers.
+- So, every node (2 properties) is going to have a **single number**. Also, will have a **reference to the next node inside of a chain** when we get all the way down.
+- The very **last** one is going to reference a value of **NULL**, and that means that we've hit the end of our chain.
+- Will have **2 classes** - one is to **represent each indiviual node** and the other one is a **linked list class**. The linked list class is going to have a **reference to the Head Node**, and it's also going to have a bunch of methods associated with it to manipulate the overall list.
+- Linked List Class
+  - add(number) to add a new node. - length() to return the total number of nodes.
+  - at(number) - compare(number, number)
+  - swap(number, number) - print()
+
+## CLASSIC INHERITANCE
+**Inheritance** take all the **methods** from "sorter" ( example: sort( ) ) and **add** them to the target class.
+
+Sorter.ts
+```js
+collection:  Sortable
+sort()
+```
+### METHODS FROM SORTER
+NumbersCollection.ts
+```js
+length()
+compare()
+swap()
+```
+CharactersCollection.ts
+```js
+length()
+compare()
+swap()
+```
+LinkedList.ts
+```js
+length()
+compare()
+swap()
+```
+## ABSTRACT CLASS/INHERITANCE - USED AS A PARENT CLASS
+- Can't be used to create an Object directly; creating instance.
+  - Example: const numCollection = new NumCollection([3, 5, , -8, 0]);
+- Only used as a Parent Class.
+- Can contain real implementation for some methods.
+- The implemented methods can refer to other methods that don't actually exist yet (we still have to provide names and types for the un-implemented methods)
+- Can make child classes promise to implement some other method.
+
+## INTERFACES VS ABSTRACT CLASSES/INHERITANCE
+**INTERFACE**
+- Sets up a contract between different classes.
+- Use when we have a very different objects that we want to work together
+- Promotes loose coupling.
+
+**ABSTRACT CLASSES/INHERITANCE**
+- Sets up a contract between different classes.
+- Use when we are trying to build up a definition of an object.
+- Strongly couples classes together.
+
+
+
 
 
 
