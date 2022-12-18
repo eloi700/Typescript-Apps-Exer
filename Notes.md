@@ -205,6 +205,18 @@ console.log(result);
 // { red: false, yellow: false, blue: true }
 ```
 
+**Alternative Answer Using For Loop**
+```ts
+let words: string[] = ['red', 'yellow', 'blue'];
+// let fourndWord = false; OR
+let foundWord: boolean;
+
+for(let i = 0; i < words.length; i++) {
+  if(words[i] === 'green'){
+    foundWords = true;
+  }
+}
+```
 **Type Annotations - When a variable whose type cannot be inferred correctly**
 
 Example:
@@ -232,6 +244,7 @@ console.log(numbersAboveZero);
 ### TYPE INFERENCE FOR **FUNCTIONS**
 
 Syntax is going to be the arguments with the colon and then the expected type. Immediately after the closing parenthesis of the argument, a colon and the type of annotation.
+
 Example:
 
 ```js
@@ -270,6 +283,12 @@ Example:
 const logger = (message: string): void => {
   console.log(message);
 };
+// void can retun NULL or UNDEFINED
+
+const throwError = (message: string): never => {
+  throw newError(message);
+}
+// never will not execute the function completely. Will use only if we never expected to return any
 
 const throwError = (message: string): void => {
   if (!message) {
@@ -403,7 +422,7 @@ const oldCivic = {
     broken: true
 }
 
-// Long repeatitive annotations - alternative is using interfaces
+// Long repetitive annotations - alternative is using interfaces
 
 const printVehicle = (vehicle: Vehicle): void => {
 // const printVehicle = (vehicle: {name: string; year: number; broken: boolean}): void => {
@@ -465,7 +484,7 @@ const drink1 = {
 }
 
 const printSummary = (item: Reportable): void => {
-    console.log(`Name: ${item.summary}`);
+    console.log(`Name: ${item.summary()}`);
 }
 
 printSummary(oldCivic);
@@ -646,6 +665,17 @@ Adding 3 Scripts:
 ```js
 npm start
 ```
+## PARCEL-BUNDLER
+It is all about getting some TypeScript executed inside the browser very easily.  It will automate a lot of tooling.
+```js
+npm install -g parcel-bundler
+// a command line tool in plae of ts-node
+// Parcel will see the index.ts (any with .ts file) to compile it to JS then replace this script tag.
+
+// TO RUN PARCEL
+npx parcel index.html
+```
+
 ## SET OF RULES (EXTENDS / IMPLEMENTS)
 - A **class** can **extend** a **class**
 - A **class** can **implement** an **interface**
@@ -775,6 +805,120 @@ swap()
 - Sets up a contract between different classes.
 - Use when we are trying to build up a definition of an object.
 - Strongly couples classes together.
+
+## PROJECT - FOOTBALL (STATS)
+- Take the data inside the spreadsheet in CSV Format
+- Load up the data into a Node.js app (Node Std Lib)
+  - The **Code** will be the following:
+  - Parse the data into usable data structure
+  - Run statistical analysis (finding the ave number of goals scored per game or find which team won the most, or maybe which team lost the most.)
+  - Generate report - the output to print out in terminal or maybe an HTML file.
+
+## TYPESCRIPT - TYPE DEFINITION FILES
+fs - File System (A module in the Node Standard Library)
+- We can freely work with different JS Libraries.
+  - Requirement: Install the **type definition file**. The Type Definition Files tell Typescript about all the different objects, properties, functions, and function arguments and return values inside of these JS Libraries.
+  - Some JS Library has its default type definition files.
+  - This is same TRUE in working with Node.js from Typescript
+- Installation of Types looks like **npm install @types/filesystem*
+
+# BAD CODE
+### TAKING DATA FROM THE CSV FILE
+```js
+import fs from 'fs';
+//note add 'node' in types: under tsconfig.json
+
+const matches = fs.readFileSync('football.csv', {encoding: 'utf-8'});
+console.log(matches);
+```
+### PARSING THE DATA
+```js
+split('\n') -> string []
+// split with a new line character
+
+map + split on their comma (,) -> string [] []
+```
+```js
+const matches = fs
+    .readFileSync('football.csv', { encoding: 'utf-8' })
+    .split('\n')
+    .map((row: string): string[] =>{
+        return row.split(',')
+});
+```
+### ANALYZING THE DATA
+Count the number of times that Man United has won a game.
+```js
+let manUnitedWins = 0;
+
+for (let match of matches) {
+  if (match[1] === 'Man United' && match[5] === 'H') {
+    manUnitedWins++;
+  } else if (match[2] === 'Man United' && match[5] === 'A') {
+    manUnitedWins++;
+  }
+}
+```
+### GENERATE A REPORT (OUTPUT THE DATA)
+Print and find out the total inside the terminal
+```js
+console.log(`Man United won ${manUnitedWins} games`);
+```
+### ISSUES ON ABOVE CODE
+- Magic string comparisons
+- Source of Data is hardcoded
+- Data array is all strings, even though it might have numbers in it.
+- Variable named after a specific team
+- Analysis type is fixed
+- No ability to output the report in different formats
+
+# BETTER CODE - SOLUTION
+Using **Enum** - It is short for Enumeration. It is use to signal other developers / engineers that they are closely related values.
+
+### **EXTRACTING DATA - CSVFILEREADER**
+### FIELDS
+- filename: string
+- data: string [][]
+
+### METHODS
+- read( ): void
+
+### DATA TYPES - CONVERTING STRINGS TO DATE ETC.
+Parsing into its appropriate value like Date, String, Number, Enum
+Example: Date
+```js
+new Date(2020, 0, 5) // year,month,day - 0 index to January
+```
+- Extract the Date String into month, day and year.
+- Subtract the month by 1.
+- Feed those values into date constructor.
+```js
+import fs from 'fs';
+
+const matches = fs
+    .readFileSync('football.csv', { encoding: 'utf-8' })
+    .split('\n')
+    .map((row: string): string[] =>{
+        return row.split(',')
+});
+
+const MatchResult = {
+  HomeWin: "H",
+  AwayWin: "A",
+  Draw: "D",
+}
+
+let manUnitedWins = 0;
+
+for(let match of matches){
+  if(match[1] === "Man United" && match)
+}
+
+
+
+
+
+
 
 
 
